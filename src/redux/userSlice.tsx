@@ -1,10 +1,8 @@
+// userSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../interfaces/user";
+import { IUser } from "../interfaces/user";
 
-interface UserDataProps {
-  userData: UserSummary[] | null;
-}
-
+// Definição do tipo de estado
 interface UserSummary {
   id: string;
   name: string;
@@ -14,10 +12,15 @@ interface UserSummary {
   lng: number;
 }
 
+interface UserDataProps {
+  userData: UserSummary[] | null;
+}
+
 const initialState: UserDataProps = {
   userData: null,
 };
 
+// Criando o slice do reducer
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -38,4 +41,5 @@ const userSlice = createSlice({
 });
 
 export const { setUserData } = userSlice.actions;
+
 export default userSlice.reducer;

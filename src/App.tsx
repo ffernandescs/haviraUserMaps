@@ -2,10 +2,31 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import { useQuery } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { getAllUsers } from "./components/services/users";
+import { IUser } from "./interfaces/user";
 
 function App() {
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+  const { data, error, isSuccess } = useQuery<IUser[], Error>({
+    queryKey: ["getUsers"],
+    queryFn: () => getAllUsers(),
+  });
 
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+  // if (!isSuccess) {
+  //   return (
+  //     <div className="flex h-full w-full items-center justify-center">
+  //       <Skeleton className="h-[20px] w-[100px] rounded-full" />
+  //     </div>
+  //   )
+  // }
+
+  dispatch(setUserData(data));
   return (
     <>
       <div>

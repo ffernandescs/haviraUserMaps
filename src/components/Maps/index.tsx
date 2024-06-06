@@ -57,7 +57,7 @@ const Maps: React.FC<LeafletMapProps> = ({ users, setRow, setSearchValeu }) => {
   return (
     <div className="w-full h-full relative">
       {users && (
-        <div className="absolute top-0 left-10 z-10 p-4 bg-transparent w-80 md:w-full">
+        <div className="absolute top-0 left-10 z-[20] p-4 bg-transparent w-80 md:w-96">
           <ComponentInput
             label=""
             type="text"
@@ -86,7 +86,7 @@ const Maps: React.FC<LeafletMapProps> = ({ users, setRow, setSearchValeu }) => {
           zoom={zoom}
           scrollWheelZoom={true}
           zoomControl={true}
-          className="absolute z-0 h-full w-full"
+          className="absolute z-0 h-full w-full overflow-hidden"
           ref={mapRef}
         >
           <TileLayer

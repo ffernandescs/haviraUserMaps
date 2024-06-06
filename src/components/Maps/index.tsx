@@ -1,20 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { IUser } from "../../interfaces/user";
+import { UserSummary } from "../../interfaces/user";
+import { Map } from "leaflet";
 
 interface LeafletMapProps {
-  users?: IUser[];
+  users?: UserSummary[];
   zoom?: number;
-  setRow?: (e: IUser) => void;
+  setRow?: (e: UserSummary) => void;
 }
 
 const Skeleton: React.FC = () => <div className="h-72 bg-neutral-400 rounded"></div>;
 
-const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 1, setRow }) => {
+const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 3, setRow }) => {
   const [centerList, setCenterList] = useState<[number, number]>([0, 0]);
   const firstUpdate = useRef(true);
-  const [key, setKey] = useState(0);
+  const mapRef = useRef<Map | null>(null);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -22,8 +23,8 @@ const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 1, setRow }) => {
       return;
     }
     if (users && users.length > 0) {
-      const lats = users.map((user) => parseFloat(user.address.geo.lat));
-      const lngs = users.map((user) => parseFloat(user.address.geo.lng));
+      const lats = users.map((user) => user.lat);
+      const lngs = users.map((user) => user.lng);
 
       const minLat = Math.min(...lats);
       const maxLat = Math.max(...lats);
@@ -32,7 +33,9 @@ const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 1, setRow }) => {
 
       const newCenter: [number, number] = [(minLat + maxLat) / 2, (minLng + maxLng) / 2];
       setCenterList(newCenter);
-      setKey((prevKey) => prevKey + 1);
+      if (mapRef.current) {
+        mapRef.current.flyTo(newCenter, zoom);
+      }
     }
   }, [users]);
 
@@ -40,16 +43,17 @@ const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 1, setRow }) => {
     <div className="w-full h-full">
       {centerList ? (
         <MapContainer
-          key={key}
           center={centerList}
+          dragging={true}
           zoom={zoom}
-          scrollWheelZoom={false}
-          style={{ width: "100%", height: "100%" }}
-          dragging
+          scrollWheelZoom={true}
+          zoomControl={true}
+          className="absolute z-0 h-full w-full"
+          ref={mapRef}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://api.maptiler.com/maps/basic/256/{z}/{x}/{y}.png?key=fXmTwJM642uPLZiwzhA1"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {users?.map((user) => (
             <Marker
@@ -61,8 +65,25 @@ const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 1, setRow }) => {
                   }
                 },
               }}
-              position={[parseFloat(user.address.geo.lat), parseFloat(user.address.geo.lng)]}
-            />
+              position={[user.lat, user.lng]}
+            >
+              <Popup>
+                <div className="flex flex-col gap-2 w-full">
+                  <div>
+                    <span className="font-bold">Nome: </span>
+                    <span className="">{user.name}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold">Email: </span>
+                    <span className="">{user.email}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold">Cidade: </span>
+                    <span className="">{user.city}</span>
+                  </div>
+                </div>
+              </Popup>
+            </Marker>
           ))}
         </MapContainer>
       ) : (

@@ -27,3 +27,13 @@ export interface IUser {
   website: string;
   company: Company;
 }
+
+export interface UserSummary {
+  id?: number;
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  lat: number;
+  lng: number;
+}

@@ -1,4 +1,4 @@
-# Desafio para o processo seletivo na Havira
+# Desafio na Havira
 
 ## 🚀 Começando
 

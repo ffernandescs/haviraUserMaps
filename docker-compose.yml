@@ -1,16 +1,24 @@
-dashboard:
-  container_name: havira-location
-  image: havira-location
-  depends_on:
-    - postgres
-  build:
-    context: ../../packages/havira-location
-    dockerfile: Dockerfile
-  ports:
-    - "5173:5173"
-  volumes:
-    - ../../packages/havira-location:/app
-    - node_modules:/app/node_modules
+version: "3.8"
+
+services:
+  havira-maps:
+    container_name: havira-maps
+    build:
+      context: C:/packages/havira-maps
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - C:/packages/havira-maps:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
 volumes:
   pgdata: {}
   node_modules: {}

@@ -87,26 +87,28 @@ const Users: React.FC = () => {
             </button>
           </div>
           <div className="flex flex-col gap-2 overflow-auto px-2">
-            <div className=" w-full flex flex-col gap-2 ">
-              <ComponentInput
-                label=""
-                type="text"
-                placeholder="Pesquisar usuário"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+            <div className="flex flex-col gap-2">
+              <div className=" w-full flex flex-col gap-2 ">
+                <ComponentInput
+                  label=""
+                  type="text"
+                  placeholder="Pesquisar usuário"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                {filteredUsers?.length === 0 && (
+                  <div className="px-4 py-2 bg-white w-full border  rounded-sm transition ease-out duration-300">
+                    Nenhum resultado encontrado.
+                  </div>
+                )}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPrev={handlePrevClick}
+                onNext={handleNextClick}
               />
-              {filteredUsers?.length === 0 && (
-                <div className="px-4 py-2 bg-white w-full border  rounded-sm transition ease-out duration-300">
-                  Nenhum resultado encontrado.
-                </div>
-              )}
             </div>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPrev={handlePrevClick}
-              onNext={handleNextClick}
-            />
 
             <ul className="flex flex-col gap-2">
               {filteredUsers?.slice(startIndex, endIndex).map((user) => (

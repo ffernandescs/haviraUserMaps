@@ -6,12 +6,14 @@ interface UserCardProps {
   phone: string;
   onClick: () => void;
   selected: boolean;
+  children?: React.ReactNode;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ name, email, phone, onClick, selected }) => {
+const UserCard: React.FC<UserCardProps> = ({ name, email, phone, onClick, selected, children }) => {
   return (
     <li
-      className={`flex justify-between items-center p-4 bg-white shadow rounded-lg transition ease-out duration-300 ${
+      onClick={onClick}
+      className={`cursor-pointer hover:bg-cyan-50  flex justify-between items-center p-4 bg-white shadow rounded-lg transition ease-out duration-300 ${
         selected ? "bg-cyan-50" : ""
       }`}
     >
@@ -35,12 +37,7 @@ const UserCard: React.FC<UserCardProps> = ({ name, email, phone, onClick, select
           </p>
         </div>
       </div>
-      <div
-        className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-gray-100 rounded-full text-gray-700 border border-gray-300 cursor-pointer transition ease-out duration-300 hover:bg-gray-200 hover:text-gray-900"
-        onClick={onClick}
-      >
-        <div className="text-xs font-normal leading-none max-w-full flex-initial">Visualizar</div>
-      </div>
+      <div>{children}</div>
     </li>
   );
 };

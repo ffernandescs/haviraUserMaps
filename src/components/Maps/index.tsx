@@ -3,19 +3,22 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { UserSummary } from "../../interfaces/user";
 import { Map } from "leaflet";
+import ComponentInput from "../ComponentInput";
 
 interface LeafletMapProps {
   users?: UserSummary[];
-  zoom?: number;
   setRow?: (e: UserSummary) => void;
+  setSearchValeu?: (e: string) => void;
 }
 
 const Skeleton: React.FC = () => <div className="h-72 bg-neutral-400 rounded"></div>;
 
-const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 3, setRow }) => {
+const Maps: React.FC<LeafletMapProps> = ({ users, setRow, setSearchValeu }) => {
   const [centerList, setCenterList] = useState<[number, number]>([0, 0]);
+  const [zoom, setZoom] = useState(3);
   const firstUpdate = useRef(true);
   const mapRef = useRef<Map | null>(null);
+  const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -33,14 +36,37 @@ const Maps: React.FC<LeafletMapProps> = ({ users, zoom = 3, setRow }) => {
 
       const newCenter: [number, number] = [(minLat + maxLat) / 2, (minLng + maxLng) / 2];
       setCenterList(newCenter);
+
+      setZoom(users.length > 1 ? 3 : 12);
+
       if (mapRef.current) {
         mapRef.current.flyTo(newCenter, zoom);
       }
     }
-  }, [users]);
+  }, [users, zoom]);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full relative">
+      <div className="absolute top-0 left-10 z-10 p-4 bg-transparent w-96">
+        <ComponentInput
+          label=""
+          type="text"
+          placeholder="Pesquisar usuário"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            if (setSearchValeu) {
+              setSearchValeu(e.target.value);
+            }
+          }}
+        />
+      </div>
+      {users?.length === 0 && (
+        <div className="absolute top-20 left-14 z-10 px-4 py-2 bg-white w-[350px] rounded-sm transition ease-out duration-300">
+          Nenhum resultado encontrado.
+        </div>
+      )}
+
       {centerList ? (
         <MapContainer
           center={centerList}

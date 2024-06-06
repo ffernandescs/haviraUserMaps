@@ -54,6 +54,12 @@ http://localhost:5173
 https://havira-user-maps.vercel.app/
 
 5 - Para iniciar a aplicação dentro de um contêiner Docker:
+
+- Faça a build
 ```
-  docker-compose up --build -d
+  docker build -t havira-maps . 
+```
+- Inicie a aplicação docker
+```
+  docker run -p 80:80 havira-maps
 ```

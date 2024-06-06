@@ -74,7 +74,7 @@ const Users: React.FC = () => {
       />
       <div className="flex relative h-full ">
         <div
-          className={`w-full md:w-80 fixed z-50 md:relative bottom-[0px] left-0 md:h-full bg-gray-600  md:bg-white bg-opacity-20 md:bg-opacity-100 overflow-hidden md:overflow-auto flex flex-col justify-between gap-2 px-2 py-4 ${
+          className={`w-full md:w-96 min-w-96 md:min-w-96 fixed z-50 md:relative bottom-[0px] left-0 md:h-full bg-gray-600  md:bg-white bg-opacity-20 md:bg-opacity-100 overflow-hidden md:overflow-auto flex flex-col justify-between gap-2 px-2 py-4 ${
             openList ? "h-[4%]" : "h-[40%]"
           } transition-height ease-out duration-300`}
         >

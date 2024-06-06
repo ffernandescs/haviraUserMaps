@@ -70,9 +70,9 @@ const Users: React.FC = () => {
         onClick={handleDeleteUser}
         title="Apagar usuário"
       />
-      <div className="flex relative h-full">
+      <div className="flex relative h-full ">
         <div
-          className={`min-w-full md:min-w-80 fixed z-50 md:relative bottom-[0px] left-0 md:h-full bg-cyan-400 bg-opacity-20 md:bg-opacity-100 overflow-hidden md:overflow-auto flex flex-col justify-between gap-2 px-2 py-2 ${
+          className={`min-w-full md:min-w-80 fixed z-50 md:relative bottom-[0px] left-0 md:h-full bg-white bg-opacity-20 md:bg-opacity-100 overflow-hidden md:overflow-auto flex flex-col justify-between gap-2 px-2 py-4 ${
             openList ? "h-[4%]" : "h-[40%]"
           } transition-height ease-out duration-300`}
         >
@@ -92,9 +92,10 @@ const Users: React.FC = () => {
               onNext={handleNextClick}
             />
 
-            {userData?.slice(startIndex, endIndex).map((user) => (
-              <ul key={user.id}>
+            <ul className="flex flex-col gap-2">
+              {userData?.slice(startIndex, endIndex).map((user) => (
                 <UserCard
+                  key={user.id}
                   name={user.name}
                   email={user.email}
                   phone={user.phone}
@@ -129,8 +130,9 @@ const Users: React.FC = () => {
                     </Tooltip>
                   </div>
                 </UserCard>
-              </ul>
-            ))}
+              ))}
+            </ul>
+
             <ComponentButton title="Ver todos" onClick={handleShowAllUsers} />
             <ComponentButton variant="outline" title="Adicionar novo usuário" onClick={onOpen} />
           </div>

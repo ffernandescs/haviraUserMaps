@@ -38,7 +38,7 @@ const Main: React.FC<MainPros> = ({ children }) => {
 
   return (
     <div className="flex flex-col min-h-screen overflow-y-hidden">
-      <div className="shadow h-20">
+      <div className="shadow border-b">
         <div className="flex items-center gap-4 justify-center py-2">
           <img src={Logo} width={40} alt="Havira Logo" />
           <h1 className="text-2xl font-bold">Localização de usuários</h1>

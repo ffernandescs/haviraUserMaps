@@ -13,8 +13,8 @@ const UserCard: React.FC<UserCardProps> = ({ name, email, phone, onClick, select
   return (
     <li
       onClick={onClick}
-      className={`cursor-pointer hover:bg-cyan-50  flex justify-between items-center p-4 bg-white shadow rounded-lg transition ease-out duration-300 ${
-        selected ? "bg-cyan-50" : ""
+      className={`cursor-pointer hover:bg-blue-50  flex justify-between items-center p-4 bg-white border  transition ease-out duration-300 ${
+        selected ? "bg-blue-50" : ""
       }`}
     >
       <div className="flex items-center space-x-4">

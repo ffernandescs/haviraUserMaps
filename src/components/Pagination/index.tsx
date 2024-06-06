@@ -13,9 +13,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPrev
   const isLastPage = currentPage === totalPages;
 
   return (
-    <div className="flex items-center justify-between px-2 py-2 bg-white">
+    <div className=" border rounded-sm flex items-center justify-between  bg-white">
       <button
-        className={`hover:bg-gray-200 rounded-md p-1 ${
+        className={`hover:bg-gray-200 rounded-md p-2 border-r ${
           isFirstPage ? "cursor-not-allowed opacity-50" : ""
         }`}
         onClick={onPrev}
@@ -27,7 +27,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPrev
         Página {currentPage} de {totalPages}
       </div>
       <button
-        className={`hover:bg-gray-200 rounded-md p-1 ${
+        className={`hover:bg-gray-200 rounded-md p-2 border-l ${
           isLastPage ? "cursor-not-allowed opacity-50" : ""
         }`}
         onClick={onNext}

@@ -30,11 +30,7 @@ const UserCard: React.FC<UserCardProps> = ({ name, email, phone, onClick, select
               {email}
             </a>
           </p>
-          <p className="text-sm text-gray-500">
-            <a href={`mailto:${phone}`} className="hover:underline">
-              {phone}
-            </a>
-          </p>
+          <p className="text-sm text-gray-500">{phone}</p>
         </div>
       </div>
       <div>{children}</div>

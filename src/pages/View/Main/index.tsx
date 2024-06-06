@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IUser } from "../../../interfaces/user";
 import { getAllUsers } from "../../../services/users";
 import { setUserData } from "../../../redux/userSlice";
+import Preload from "../../../components/Preload";
 
 interface MainPros {
   children: JSX.Element;
@@ -12,7 +13,7 @@ interface MainPros {
 
 const Main: React.FC<MainPros> = ({ children }) => {
   const dispatch = useDispatch();
-  const { data, error } = useQuery<IUser[], Error>({
+  const { data, isLoading, error } = useQuery<IUser[], Error>({
     queryKey: ["getUsers"],
     queryFn: () => getAllUsers(),
   });
@@ -27,12 +28,20 @@ const Main: React.FC<MainPros> = ({ children }) => {
     return <div>Error: {error.message}</div>;
   }
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen">
+        <Preload />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="shadow">
-        <div className="flex items-center gap-4 justify-center py-4">
-          <img src={Logo} width={60} alt="Havira Logo" />
-          <h1 className="text-2xl font-extralight">Localização de usuários</h1>
+    <div className="flex flex-col min-h-screen overflow-y-hidden">
+      <div className="shadow h-20">
+        <div className="flex items-center gap-4 justify-center py-2">
+          <img src={Logo} width={40} alt="Havira Logo" />
+          <h1 className="text-2xl font-bold">Localização de usuários</h1>
         </div>
       </div>
       <div className="flex-grow h-96">{children}</div>

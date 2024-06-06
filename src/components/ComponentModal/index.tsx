@@ -28,7 +28,13 @@ const ComponentModal: React.FC<ModalProps> = ({
   const finalRef = React.useRef(null);
   return (
     <>
-      <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={open} onClose={onClose}>
+      <Modal
+        isCentered
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={open}
+        onClose={onClose}
+      >
         <ModalOverlay />
         <ModalContent>
           {loading && (

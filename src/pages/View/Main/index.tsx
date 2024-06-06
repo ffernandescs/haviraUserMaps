@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Logo from "../../../assets/havira_logo.jpeg";
+import Logo from "../../../assets/logo.jpeg";
 import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { IUser } from "../../../interfaces/user";

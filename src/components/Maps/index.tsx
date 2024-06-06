@@ -2,14 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { UserSummary } from "../../interfaces/user";
-import { Map } from "leaflet";
-import ComponentInput from "../ComponentInput";
-import Logo from "../../assets/havira_logo.jpeg";
+import { Icon, Map } from "leaflet";
+import Logo from "../../assets/logo.jpeg";
+import Person from "../../assets/person.png";
 
 interface LeafletMapProps {
   users?: UserSummary[];
   setRow?: (e: UserSummary) => void;
-  setSearchValeu?: (e: string) => void;
 }
 
 const Skeleton: React.FC = () => (
@@ -22,12 +21,11 @@ const Skeleton: React.FC = () => (
   </div>
 );
 
-const Maps: React.FC<LeafletMapProps> = ({ users, setRow, setSearchValeu }) => {
+const Maps: React.FC<LeafletMapProps> = ({ users, setRow }) => {
   const [centerList, setCenterList] = useState<[number, number]>([0, 0]);
   const [zoom, setZoom] = useState(3);
   const firstUpdate = useRef(true);
   const mapRef = useRef<Map | null>(null);
-  const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -53,6 +51,12 @@ const Maps: React.FC<LeafletMapProps> = ({ users, setRow, setSearchValeu }) => {
       }
     }
   }, [users, zoom]);
+
+  const personIcon = new Icon({
+    iconUrl: Person,
+    iconSize: [40, 40],
+    iconAnchor: [20, 0],
+  });
 
   return (
     <div className="w-full h-full relative">
@@ -81,6 +85,7 @@ const Maps: React.FC<LeafletMapProps> = ({ users, setRow, setSearchValeu }) => {
                 },
               }}
               position={[user.lat, user.lng]}
+              icon={personIcon}
             >
               <Popup>
                 <div className="flex flex-col gap-2 w-full">

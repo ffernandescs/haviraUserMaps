@@ -155,10 +155,7 @@ const Users: React.FC = () => {
           <div className="flex flex-col gap-2"></div>
         </div>
         <div className="flex-grow h-full">
-          <Maps
-            setSearchValeu={(e) => setSearch(e)}
-            users={selectedUser ? [selectedUser] : userData ? userData : []}
-          />
+          <Maps users={selectedUser ? [selectedUser] : userData ? userData : []} />
         </div>
       </div>
     </>

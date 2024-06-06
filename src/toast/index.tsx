@@ -1,8 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { useToast as useChakraToast, ToastId } from "@chakra-ui/react";
 
-type ToastSeverity = "success" | "info" | "warn" | "error";
-
+type ToastSeverity = "success" | "info" | "warning" | "error";
 type ToastContextType = {
   showToastMessage: (
     severity: ToastSeverity,
@@ -27,9 +26,13 @@ type ToastProviderProps = {
 
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   const chakraToast = useChakraToast();
-  const showToastMessage: ToastContextType["showToastMessage"] = (severity, summary, detail) => {
+  const showToastMessage: ToastContextType["showToastMessage"] = (
+    severity = "success",
+    summary,
+    detail
+  ) => {
     return chakraToast({
-      status: (severity = "success"),
+      status: severity,
       title: summary,
       description: detail,
       duration: 3000,

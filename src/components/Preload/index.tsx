@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../assets/havira_logo.jpeg";
+import Logo from "../../assets/logo.jpeg";
 
 const Preload: React.FC = () => {
   return (

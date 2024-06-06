@@ -13,6 +13,7 @@ import { ArrowDownIcon, ArrowUpIcon, DeleteIcon, EditIcon } from "@chakra-ui/ico
 import EditUser from "../../Edit/User";
 import ComponentDialog from "../../../components/ComponentDialog";
 import { useToast } from "../../../toast";
+import ComponentInput from "../../../components/ComponentInput";
 
 const Users: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const Users: React.FC = () => {
   const handleShowAllUsers = () => {
     handleUserSelect(null);
     setSelectedUserId(null);
+    setSearch("");
   };
 
   const handleDeleteUser = () => {
@@ -85,6 +87,20 @@ const Users: React.FC = () => {
             </button>
           </div>
           <div className="flex flex-col gap-2 overflow-auto px-2">
+            <div className=" w-full flex flex-col gap-2 ">
+              <ComponentInput
+                label=""
+                type="text"
+                placeholder="Pesquisar usuário"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              {filteredUsers?.length === 0 && (
+                <div className="px-4 py-2 bg-white w-full border  rounded-sm transition ease-out duration-300">
+                  Nenhum resultado encontrado.
+                </div>
+              )}
+            </div>
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -93,7 +109,7 @@ const Users: React.FC = () => {
             />
 
             <ul className="flex flex-col gap-2">
-              {userData?.slice(startIndex, endIndex).map((user) => (
+              {filteredUsers?.slice(startIndex, endIndex).map((user) => (
                 <UserCard
                   key={user.id}
                   name={user.name}
@@ -133,7 +149,7 @@ const Users: React.FC = () => {
               ))}
             </ul>
 
-            <ComponentButton title="Ver todos" onClick={handleShowAllUsers} />
+            {search && <ComponentButton title="Ver todos" onClick={handleShowAllUsers} />}
             <ComponentButton variant="outline" title="Adicionar novo usuário" onClick={onOpen} />
           </div>
           <div className="flex flex-col gap-2"></div>
@@ -141,7 +157,7 @@ const Users: React.FC = () => {
         <div className="flex-grow h-full">
           <Maps
             setSearchValeu={(e) => setSearch(e)}
-            users={selectedUser ? [selectedUser] : userData ? filteredUsers : []}
+            users={selectedUser ? [selectedUser] : userData ? userData : []}
           />
         </div>
       </div>

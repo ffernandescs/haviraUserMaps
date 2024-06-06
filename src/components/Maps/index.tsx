@@ -56,29 +56,6 @@ const Maps: React.FC<LeafletMapProps> = ({ users, setRow, setSearchValeu }) => {
 
   return (
     <div className="w-full h-full relative">
-      {users && (
-        <div className="absolute top-0 left-10 z-[20] p-4 bg-transparent w-80 md:w-96">
-          <ComponentInput
-            label=""
-            type="text"
-            placeholder="Pesquisar usuário"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              if (setSearchValeu) {
-                setSearchValeu(e.target.value);
-              }
-            }}
-          />
-        </div>
-      )}
-
-      {users?.length === 0 && (
-        <div className="absolute top-20 left-14 z-10 px-4 py-2 bg-white w-72 md:w-[350px] rounded-sm transition ease-out duration-300">
-          Nenhum resultado encontrado.
-        </div>
-      )}
-
       {users ? (
         <MapContainer
           center={centerList}

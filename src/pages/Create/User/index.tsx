@@ -12,6 +12,7 @@ import { ModalBody, ModalFooter } from "@chakra-ui/react";
 import { formatPhoneInput } from "../../../utils/formatPhoneInput";
 import { useDispatch } from "react-redux";
 import { createUser } from "../../../redux/userSlice";
+import { useToast } from "../../../toast";
 
 interface CreateProps {
   open: boolean;
@@ -29,6 +30,7 @@ const schema = yup.object({
 
 const CreateUser: React.FC<CreateProps> = ({ onClose, open }) => {
   const dispatch = useDispatch();
+  const { showToastMessage } = useToast();
 
   const {
     register,
@@ -47,6 +49,7 @@ const CreateUser: React.FC<CreateProps> = ({ onClose, open }) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     dispatch(createUser(data));
+    showToastMessage("success", "Operação concluída", "Os dados foram salvos com sucesso!");
 
     setIsLoading(false);
     onClose();

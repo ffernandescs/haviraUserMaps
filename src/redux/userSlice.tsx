@@ -45,7 +45,16 @@ const userSlice = createSlice({
         state.userData = [newUser];
       }
     },
-
+    updateUser: (state, action: PayloadAction<UserSummary>) => {
+      if (state.userData) {
+        state.userData = state.userData.map((user) =>
+          user.id === action.payload.id ? action.payload : user
+        );
+      }
+      if (state.selectedUser?.id === action.payload.id) {
+        state.selectedUser = action.payload;
+      }
+    },
     deleteUser: (state, action: PayloadAction<number>) => {
       if (state.userData) {
         state.userData = state.userData.filter((user) => user.id !== action.payload);
@@ -57,6 +66,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserData, setSelectUser, createUser, deleteUser } = userSlice.actions;
+export const { setUserData, setSelectUser, createUser, updateUser, deleteUser } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,6 +1,6 @@
 // CreateUser.tsx
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ComponentInput from "../../../components/ComponentInput";
@@ -11,12 +11,13 @@ import ComponentButton from "../../../components/ComponentButton";
 import { ModalBody, ModalFooter } from "@chakra-ui/react";
 import { formatPhoneInput } from "../../../utils/formatPhoneInput";
 import { useDispatch } from "react-redux";
-import { createUser } from "../../../redux/userSlice";
+import { updateUser } from "../../../redux/userSlice";
+import { useToast } from "../../../toast";
 
 interface CreateProps {
   open: boolean;
   onClose: () => void;
-  id: number;
+  row: UserSummary;
 }
 
 const schema = yup.object({
@@ -28,9 +29,9 @@ const schema = yup.object({
   lng: yup.number().typeError("Longitude deve ser um número").required("Longitude é obrigatória"),
 });
 
-const EditUser: React.FC<CreateProps> = ({ onClose, open, id }) => {
+const EditUser: React.FC<CreateProps> = ({ onClose, open, row }) => {
   const dispatch = useDispatch();
-
+  const { showToastMessage } = useToast();
   const {
     register,
     handleSubmit,
@@ -47,16 +48,24 @@ const EditUser: React.FC<CreateProps> = ({ onClose, open, id }) => {
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    dispatch(createUser(data));
-
+    dispatch(updateUser({ ...data, id: row.id }));
+    showToastMessage("success", "Operação concluída", "Os dados foram salvos com sucesso!");
     setIsLoading(false);
     onClose();
   };
 
-  console.log(id, "id");
-
+  useEffect(() => {
+    if (row) {
+      setValue("name", row.name);
+      setValue("email", row.email);
+      setValue("phone", formatPhoneInput(row.phone));
+      setValue("city", row.city);
+      setValue("lat", row.lat);
+      setValue("lng", row.lng);
+    }
+  }, [row]);
   return (
-    <ComponentModal open={open} onClose={onClose} title="Criar novo usuário" loading={isLoading}>
+    <ComponentModal open={open} onClose={onClose} title="Editar usuário" loading={isLoading}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <ModalBody pb={6}>
           <div className="flex flex-col gap-2">

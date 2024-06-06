@@ -9,3 +9,11 @@ export const useUserData = () => {
 export const useUserUnique = () => {
   return useSelector((state: RootState) => state.user.selectedUser);
 };
+
+export const useCreateUser = () => {
+  return useSelector((state: RootState) => state.user.selectedUser);
+};
+
+export const useDeleteUser = () => {
+  return useSelector((state: RootState) => state.user.selectedUser);
+};
